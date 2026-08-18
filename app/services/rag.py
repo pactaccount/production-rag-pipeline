@@ -36,10 +36,9 @@ def get_index():
     storage_context = get_storage_context()
     try:
         # Check if index is already populated
-        from llama_index.core.indices import MultiModalVectorStoreIndex
-        index = MultiModalVectorStoreIndex.from_vector_store(
-            vector_store=storage_context.vector_store,
-            image_vector_store=storage_context.image_store
+        from llama_index.core import VectorStoreIndex
+        index = VectorStoreIndex.from_vector_store(
+            vector_store=storage_context.vector_store
         )
         return index
     except Exception as e:
@@ -75,23 +74,12 @@ def get_dynamic_llm(provider: Optional[str], model_name: Optional[str], api_key:
 from llama_index.core.node_parser import SentenceWindowNodeParser
 
 from llama_index.core.schema import ImageDocument
-from llama_index.core.indices import MultiModalVectorStoreIndex
+from llama_index.core import VectorStoreIndex
 
 def ingest_document(file_path: str, session_id: str):
     print("Parsing document using LlamaParse...")
     parser = LlamaParse(result_type="markdown")
     documents = parser.load_data(file_path)
-    
-    print("Extracting images from document...")
-    images_dir = os.path.join(os.path.dirname(file_path), f"images_{session_id}")
-    os.makedirs(images_dir, exist_ok=True)
-    images = parser.get_images(documents, download_path=images_dir)
-    
-    image_docs = []
-    for img in images:
-        img_doc = ImageDocument(image_path=img["path"])
-        img_doc.metadata["session_id"] = session_id
-        image_docs.append(img_doc)
     
     # Attach session_id to metadata
     for doc in documents:
@@ -107,10 +95,9 @@ def ingest_document(file_path: str, session_id: str):
     
     storage_context = get_storage_context()
     
-    print(f"Embedding {len(nodes)} text nodes and {len(image_docs)} images...")
-    index = MultiModalVectorStoreIndex(
+    print(f"Embedding {len(nodes)} text nodes...")
+    index = VectorStoreIndex(
         nodes=nodes,
-        image_documents=image_docs,
         storage_context=storage_context,
         show_progress=True
     )
