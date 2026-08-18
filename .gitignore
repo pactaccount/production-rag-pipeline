@@ -1,0 +1,10 @@
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.env
+eval_results.json
+*.pdf
+qdrant_data/
+frontend/node_modules/
