@@ -5,6 +5,7 @@ import * as random from 'maath/random/dist/maath-random.esm';
 import axios from 'axios';
 import { Settings, Upload, Send, MessageSquare, Loader2, Key, CheckCircle } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import ReactMarkdown from 'react-markdown';
 
 // 3D Background Component
 function ParticleBackground(props) {
@@ -227,7 +228,20 @@ export default function App() {
                       ${msg.role === 'user' 
                         ? 'bg-slate-200 text-black rounded-tr-sm font-medium' 
                         : 'bg-slate-900 border border-slate-800 text-slate-300 rounded-tl-sm'}`}>
-                      {msg.content}
+                      <ReactMarkdown
+                        components={{
+                          p: ({node, ...props}) => <p className="mb-3 last:mb-0" {...props} />,
+                          ul: ({node, ...props}) => <ul className="list-disc ml-5 mb-3 space-y-1" {...props} />,
+                          ol: ({node, ...props}) => <ol className="list-decimal ml-5 mb-3 space-y-1" {...props} />,
+                          li: ({node, ...props}) => <li className="" {...props} />,
+                          h1: ({node, ...props}) => <h1 className="text-xl font-bold mb-3 mt-4 text-white" {...props} />,
+                          h2: ({node, ...props}) => <h2 className="text-lg font-bold mb-3 mt-4 text-white" {...props} />,
+                          h3: ({node, ...props}) => <h3 className="text-md font-bold mb-2 mt-3 text-slate-100" {...props} />,
+                          strong: ({node, ...props}) => <strong className="font-semibold text-slate-100" {...props} />,
+                        }}
+                      >
+                        {msg.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 ))
