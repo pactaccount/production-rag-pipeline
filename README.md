@@ -11,6 +11,7 @@ This project abandons basic, naive vector similarity in favor of a robust, enter
 * **Multimodal Extraction**: Instead of stripping charts and tables from PDFs, this pipeline uses **LlamaParse** to parse tables semantically and extract charts as visual nodes. You can ask the LLM to analyze the actual trends in a graph from a 10-K filing!
 * **Sentence Window Chunking**: To solve the "chunk size dilemma", the system breaks documents down sentence-by-sentence. It embeds only the precise sentence for retrieval, but dynamically injects a window of surrounding context (e.g., the 3 sentences before and after) into the LLM prompt. This ensures ultra-precise vector matching *without* losing context.
 * **Two-Stage Re-ranking**: We use Qdrant for initial retrieval (Stage 1), followed by a **Cohere Cross-Encoder** (Stage 2) to mathematically rescore the top candidates against the exact user query. This filters out irrelevant keyword matches and virtually eliminates hallucination.
+* **BYOK Architecture (Bring Your Own Key)**: The system defaults to Gemini 1.5 Pro, but natively supports dynamic model routing. Recruiters and users can securely plug in their own API keys to test the system with OpenAI (GPT-4o), Anthropic (Claude 3.5), or Groq models without depleting the server's credits!
 * **Automated Evaluation**: Fully integrated with the **Ragas** framework to mathematically prove the system's accuracy (Faithfulness and Answer Relevancy).
 
 ## Tentative Architecture

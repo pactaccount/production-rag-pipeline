@@ -48,17 +48,29 @@ def get_index():
 
 from typing import List, Dict, Optional
 from llama_index.llms.gemini import Gemini
+from llama_index.llms.openai import OpenAI
+from llama_index.llms.anthropic import Anthropic
+from llama_index.llms.groq import Groq
 from llama_index.core.llms import ChatMessage, MessageRole
 from llama_index.core.vector_stores.types import MetadataFilters, ExactMatchFilter
 
 from llama_index.multi_modal_llms.gemini import GeminiMultiModal
 
 def get_dynamic_llm(provider: Optional[str], model_name: Optional[str], api_key: Optional[str]):
-    # Fallback to server key if user didn't provide one
-    if not api_key:
-        return GeminiMultiModal(model="models/gemini-1.5-pro-latest", api_key=settings.GEMINI_API_KEY)
-        
-    return GeminiMultiModal(model=model_name or "models/gemini-1.5-pro-latest", api_key=api_key)
+    # If the user brings their own API key, route to their chosen provider
+    if api_key:
+        provider = provider.lower() if provider else "openai"
+        if provider == "openai":
+            return OpenAI(model=model_name or "gpt-4o-mini", api_key=api_key)
+        elif provider == "anthropic":
+            return Anthropic(model=model_name or "claude-3-haiku-20240307", api_key=api_key)
+        elif provider == "groq":
+            return Groq(model=model_name or "llama3-70b-8192", api_key=api_key)
+        else:
+            return GeminiMultiModal(model=model_name or "models/gemini-1.5-pro-latest", api_key=api_key)
+            
+    # Fallback to our server's default Gemini key if they don't have their own key
+    return GeminiMultiModal(model="models/gemini-1.5-pro-latest", api_key=settings.GEMINI_API_KEY)
 
 from llama_index.core.node_parser import SentenceWindowNodeParser
 

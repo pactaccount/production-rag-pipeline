@@ -18,3 +18,6 @@ llama-index-embeddings-cohere
 langchain-cohere
 llama-index-postprocessor-cohere-rerank
 llama-index-multi-modal-llms-gemini
+llama-index-llms-openai
+llama-index-llms-anthropic
+llama-index-llms-groq
