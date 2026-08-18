@@ -1,5 +1,5 @@
 # Stage 1: Build the React frontend
-FROM node:18-alpine AS build-stage
+FROM node:22-alpine AS build-stage
 WORKDIR /frontend
 # Copy package files and install dependencies
 COPY frontend/package.json frontend/package-lock.json* ./
