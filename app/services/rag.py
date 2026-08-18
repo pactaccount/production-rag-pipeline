@@ -66,10 +66,10 @@ def get_dynamic_llm(provider: Optional[str], model_name: Optional[str], api_key:
         elif provider == "groq":
             return Groq(model=model_name or "llama3-70b-8192", api_key=api_key)
         else:
-            return Gemini(model=model_name or "models/gemini-1.5-pro-latest", api_key=api_key)
+            return Gemini(model=model_name or "models/gemini-1.5-pro", api_key=api_key)
             
     # Fallback to our server's default Gemini key if they don't have their own key
-    return Gemini(model="models/gemini-1.5-pro-latest", api_key=settings.GEMINI_API_KEY)
+    return Gemini(model="models/gemini-1.5-pro", api_key=settings.GEMINI_API_KEY)
 
 from llama_index.core.node_parser import SentenceWindowNodeParser
 
