@@ -141,10 +141,30 @@ def chat_rag(query_text: str, session_id: str, provider: Optional[str], model_na
     cohere_rerank = CohereRerank(api_key=settings.COHERE_API_KEY, top_n=3)
     metadata_replacement = MetadataReplacementPostProcessor(target_metadata_key="window")
     
+    SYSTEM_PROMPT = (
+        "You are an elite financial analyst and data intelligence assistant. "
+        "Your role is to provide precise, accurate, and deeply insightful answers based on the user's documents. "
+        "Weave the facts naturally into your response. NEVER use robotic, repetitive phrases like "
+        "'Based on the document provided', 'According to the context', or 'Here are the key reports'. "
+        "Instead, speak directly, authoritatively, and conversationally. Format your response beautifully using "
+        "markdown, bullet points, and bold text to emphasize key financial metrics or concepts."
+    )
+    
+    CONTEXT_PROMPT = (
+        "Context information is below.\n"
+        "---------------------\n"
+        "{context_str}\n"
+        "---------------------\n"
+        "Using the context information above, answer the user's question directly and naturally. "
+        "Do not explicitly mention the context or documents."
+    )
+    
     chat_engine = index.as_chat_engine(
         llm=llm,
         chat_mode="condense_plus_context",
         filters=filters,
+        system_prompt=SYSTEM_PROMPT,
+        context_prompt=CONTEXT_PROMPT,
         node_postprocessors=[metadata_replacement, cohere_rerank],
         similarity_top_k=10 # Fetch 10, then rerank down to 3
     )
