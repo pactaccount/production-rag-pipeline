@@ -4,7 +4,7 @@
 
 A high-performance, production-ready Retrieval-Augmented Generation (RAG) system engineered for complex financial and technical documents. Built with a modern, decoupled stack, this project transforms standard text-based RAG into a fully multimodal, highly precise intelligence engine.
 
-## 🌟 High-Level Overview & Features
+## High-Level Overview & Features
 
 This project abandons basic, naive vector similarity in favor of a robust, enterprise-grade architecture:
 
@@ -13,7 +13,7 @@ This project abandons basic, naive vector similarity in favor of a robust, enter
 * **Two-Stage Re-ranking**: We use Qdrant for initial retrieval (Stage 1), followed by a **Cohere Cross-Encoder** (Stage 2) to mathematically rescore the top candidates against the exact user query. This filters out irrelevant keyword matches and virtually eliminates hallucination.
 * **Automated Evaluation**: Fully integrated with the **Ragas** framework to mathematically prove the system's accuracy (Faithfulness and Answer Relevancy).
 
-## 🏗️ Tentative Architecture
+## Tentative Architecture
 
 1. **Document Ingestion Layer**: 
    * PDFs (e.g., SEC Form 10-Ks) are parsed by `LlamaParse`.
@@ -32,7 +32,7 @@ This project abandons basic, naive vector similarity in favor of a robust, enter
    * API served via `FastAPI`.
    * UI built with `React`, `Vite`, `TailwindCSS`, and `React Three Fiber` for dynamic 3D visuals.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 * Python 3.12+
@@ -76,5 +76,5 @@ npm install
 npm run dev
 ```
 
-## 📖 In-Depth Research Documentation
-For a deep dive into the algorithmic design, technical implementation details, and the rigorous quantitative evaluation results (proving a 1.0 score in Faithfulness), please refer to the official [Architecture Research Paper](Architecture_Research_Paper.md) included in this repository.
+## In-Depth Research Documentation
+For a deep dive into the algorithmic design, technical implementation details, and the rigorous quantitative evaluation results (proving a 1.0 score in Faithfulness), please refer to the official [Documentation](Documentation.md) included in this repository.
