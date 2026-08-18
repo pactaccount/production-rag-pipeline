@@ -3,8 +3,8 @@ uvicorn
 llama-index
 llama-index-llms-gemini
 llama-index-embeddings-gemini
-qdrant-client
-llama-index-vector-stores-qdrant
+qdrant-client==1.19.0
+llama-index-vector-stores-qdrant==0.10.3
 ragas
 arize-phoenix
 openinference-instrumentation-llama-index
