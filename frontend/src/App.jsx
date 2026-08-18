@@ -25,7 +25,9 @@ function ParticleBackground(props) {
   );
 }
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// In production (Render), the backend and frontend share the same domain.
+// By using a relative path, the browser automatically prepends the correct domain (e.g., https://nexus-ai.onrender.com/api)
+const API_BASE_URL = '/api';
 
 const PROVIDERS = ["Gemini", "Groq", "Anthropic", "OpenAI", "Mistral", "Cohere", "Together", "Fireworks"];
 const DEFAULT_MODELS = {
