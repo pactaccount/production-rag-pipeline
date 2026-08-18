@@ -1,10 +1,5 @@
 from fastapi import FastAPI
 from app.api.routes import router
-import phoenix as px
-from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 
 from fastapi.middleware.cors import CORSMiddleware
 
