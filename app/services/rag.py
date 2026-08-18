@@ -96,9 +96,13 @@ def ingest_document(file_path: str, session_id: str):
     storage_context = get_storage_context()
     
     print(f"Embedding {len(nodes)} text nodes...")
+    import gc
+    gc.collect() # Free up memory before embedding
+    
     index = VectorStoreIndex(
         nodes=nodes,
         storage_context=storage_context,
+        insert_batch_size=32, # Prevent OOM crashes on Render (default is 2048)
         show_progress=True
     )
             
