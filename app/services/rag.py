@@ -48,13 +48,6 @@ def get_index():
 
 from typing import List, Dict, Optional
 from llama_index.llms.gemini import Gemini
-from llama_index.llms.groq import Groq
-from llama_index.llms.anthropic import Anthropic
-from llama_index.llms.openai import OpenAI
-from llama_index.llms.mistralai import MistralAI
-from llama_index.llms.cohere import Cohere
-from llama_index.llms.together import TogetherLLM
-from llama_index.llms.fireworks import Fireworks
 from llama_index.core.llms import ChatMessage, MessageRole
 from llama_index.core.vector_stores.types import MetadataFilters, ExactMatchFilter
 
@@ -65,26 +58,7 @@ def get_dynamic_llm(provider: Optional[str], model_name: Optional[str], api_key:
     if not api_key:
         return GeminiMultiModal(model="models/gemini-1.5-pro-latest", api_key=settings.GEMINI_API_KEY)
         
-    provider = provider.lower() if provider else "gemini"
-    
-    if provider == "gemini":
-        return GeminiMultiModal(model=model_name or "models/gemini-1.5-pro-latest", api_key=api_key)
-    elif provider == "groq":
-        return Groq(model=model_name or "llama3-70b-8192", api_key=api_key)
-    elif provider == "anthropic":
-        return Anthropic(model=model_name or "claude-3-haiku-20240307", api_key=api_key)
-    elif provider == "openai":
-        return OpenAI(model=model_name or "gpt-3.5-turbo", api_key=api_key)
-    elif provider == "mistral":
-        return MistralAI(model=model_name or "mistral-large-latest", api_key=api_key)
-    elif provider == "cohere":
-        return Cohere(model=model_name or "command-r-plus", api_key=api_key)
-    elif provider == "together":
-        return TogetherLLM(model=model_name or "meta-llama/Llama-3-70b-chat-hf", api_key=api_key)
-    elif provider == "fireworks":
-        return Fireworks(model=model_name or "accounts/fireworks/models/mixtral-8x7b-instruct", api_key=api_key)
-    else:
-        return GeminiMultiModal(model="models/gemini-1.5-pro-latest", api_key=settings.GEMINI_API_KEY)
+    return GeminiMultiModal(model=model_name or "models/gemini-1.5-pro-latest", api_key=api_key)
 
 from llama_index.core.node_parser import SentenceWindowNodeParser
 
