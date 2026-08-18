@@ -18,18 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Phoenix / OpenTelemetry Setup ---
-# Start the Phoenix server (local dashboard)
-px.launch_app()
-
-# Configure OpenTelemetry exporter to send traces to Phoenix
-endpoint = "http://localhost:6006/v1/traces"
-tracer_provider = TracerProvider()
-tracer_provider.add_span_processor(SimpleSpanProcessor(OTLPSpanExporter(endpoint)))
-
-# Instrument LlamaIndex
-LlamaIndexInstrumentor().instrument(tracer_provider=tracer_provider)
-# ------------------------------------
+# Local Phoenix tracing is disabled in production to prevent timeout crashes
+# and because cloud providers only expose a single port.
 
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
