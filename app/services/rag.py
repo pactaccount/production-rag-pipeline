@@ -40,6 +40,17 @@ def get_index():
         index = VectorStoreIndex.from_vector_store(
             vector_store=storage_context.vector_store
         )
+        # Ensure payload index exists
+        from qdrant_client import models
+        try:
+            qdrant_client.create_payload_index(
+                collection_name=text_collection,
+                field_name="session_id",
+                field_schema=models.PayloadSchemaType.KEYWORD,
+            )
+        except Exception:
+            pass
+            
         return index
     except Exception as e:
         print(f"Index not found: {e}")
