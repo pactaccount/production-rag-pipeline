@@ -96,5 +96,5 @@ python eval/dynamic_eval.py
 ```
 The script will output the exact metrics and questions to `eval/eval_results.json`.
 
-## In-Depth Research Documentation
-For a deep dive into the algorithmic design, technical implementation details, and the rigorous quantitative evaluation procedure, please refer to the official [Documentation](Documentation.md) included in this repository.
+## In-Depth Documentation
+For a deep dive into the design, technical implementation details, and the rigorous quantitative evaluation procedure, please refer to the [Documentation](Documentation.md) included in this repository.
