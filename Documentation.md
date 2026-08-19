@@ -40,16 +40,32 @@ The system is implemented using a modern technology stack optimized for performa
 * **Frontend Application**: A responsive user interface built with **React.js**, **Vite**, and **TailwindCSS**, featuring a dynamic 3D background using React Three Fiber to enhance the user experience.
 
 ## IV. EVALUATION METHODOLOGY
-A production RAG system requires rigorous quantitative evaluation to ensure reliability. The system was evaluated using the principles of the **Ragas** (Retrieval Augmented Generation Assessment) framework natively via the LlamaIndex evaluation suite.
+A production RAG system requires rigorous quantitative evaluation to ensure reliability. We have designed a highly robust, dynamic evaluation pipeline using LlamaIndex's native evaluators (avoiding heavy external dependencies like Ragas or Arize Phoenix).
 
-### A. Golden Dataset Generation
-An automated LLM-driven pipeline was used to read the ingested documents (Apple Inc. Form 10-K) and generate a synthetic "Golden Dataset" of complex, multi-hop questions.
+### A. Synthetic Dataset Generation
+Manually curating a "Golden Dataset" is time-consuming and often biased. Our evaluation script (`eval/dynamic_eval.py`) automatically ingests production documents (e.g., Apple 10-K and Ford 10-K) and uses LlamaIndex's `DatasetGenerator` to dynamically synthesize difficult, multi-hop question-answer pairs directly from the document chunks.
 
 ### B. Evaluation Metrics
-The generated queries were processed by the RAG pipeline, and the responses were graded algorithmically by a secondary LLM acting as an impartial judge across the following metrics:
-1. **Faithfulness**: Measures the factual consistency of the generated answer against the retrieved context. A score of 1.0 indicates that the answer is completely derived from the context, with zero external hallucination.
-2. **Answer Relevancy**: Measures how directly the generated answer addresses the original prompt, heavily penalizing evasive, incomplete, or tangential responses.
-3. **Context Precision & Recall**: Evaluates the vector database and re-ranker's ability to retrieve the correct ground-truth information necessary to answer the question.
+The generated queries are processed by the RAG pipeline, and the responses are graded algorithmically by a powerful secondary LLM (Gemini 2.5 Flash) acting as an impartial judge. The system is evaluated across the following critical metrics:
+
+1. **Faithfulness (Groundedness Check):** 
+   - **What it measures:** Ensures the generated answer is entirely supported by the retrieved context.
+   - **Why it matters:** Penalizes hallucinations. If the LLM brings in external knowledge not present in the 10-K filing, it fails the faithfulness check.
+   
+2. **Answer Relevancy (Usefulness Check):** 
+   - **What it measures:** Evaluates how directly the generated answer addresses the user's original prompt.
+   - **Why it matters:** Penalizes evasive, incomplete, or rambling responses. The RAG system must answer the specific question asked.
+
+### C. Evaluation Execution Procedure
+To run the automated evaluation pipeline:
+1. Ensure your `.env` file contains valid `GEMINI_API_KEY`, `COHERE_API_KEY`, and `LLAMA_CLOUD_API_KEY`.
+2. Place target evaluation PDFs (e.g., `apple_10k.pdf`, `ford_10k.pdf`) in the accessible data directories.
+3. Execute the script via the virtual environment:
+   ```bash
+   source .venv/bin/activate
+   python eval/dynamic_eval.py
+   ```
+4. The script will parse the documents, synthesize questions, query the RAG engine, run the LLM-as-a-judge evaluators, and output a structured `eval/eval_results.json` containing the passing scores.
 
 ## V. EVALUATION RESULTS
 An automated evaluation was performed on a subset of the `c24e7a28-5254-4dfa-9447-62aaa3c24bb1.pdf` document.

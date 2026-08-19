@@ -12,7 +12,7 @@ This project abandons basic, naive vector similarity in favor of a robust, enter
 * **Sentence Window Chunking**: To solve the "chunk size dilemma", the system breaks documents down sentence-by-sentence. It embeds only the precise sentence for retrieval, but dynamically injects a window of surrounding context (e.g., the 3 sentences before and after) into the LLM prompt. This ensures ultra-precise vector matching *without* losing context.
 * **Two-Stage Re-ranking**: We use Qdrant for initial retrieval (Stage 1), followed by a **Cohere Cross-Encoder** (Stage 2) to mathematically rescore the top candidates against the exact user query. This filters out irrelevant keyword matches and virtually eliminates hallucination.
 * **BYOK Architecture (Bring Your Own Key)**: The system defaults to Gemini 1.5 Pro, but natively supports dynamic model routing. Recruiters and users can securely plug in their own API keys to test the system with OpenAI (GPT-4o), Anthropic (Claude 3.5), or Groq models without depleting the server's credits!
-* **Automated Evaluation**: Fully integrated with the **Ragas** framework to mathematically prove the system's accuracy (Faithfulness and Answer Relevancy).
+* **Automated Multi-Document Evaluation**: Rigorous, reproducible evaluation pipeline that dynamically synthesizes ground-truth datasets from your own documents (e.g., Apple 10-K, Ford 10-K). It uses LLM-as-a-judge to mathematically prove the system's accuracy across **Faithfulness** and **Answer Relevancy** metrics.
 
 ## Tentative Architecture
 
@@ -77,5 +77,24 @@ npm install
 npm run dev
 ```
 
+## Automated Evaluation
+
+A production RAG system is only as good as its proven metrics. This pipeline includes a robust, automated evaluation script that uses LlamaIndex's native evaluators and an **LLM-as-a-judge** (Gemini 2.5 Flash) to score the system.
+
+### How it Works
+1. **Dynamic Dataset Generation**: The script ingests your documents (e.g., Ford and Apple 10-Ks) and automatically generates difficult, multi-hop question-answer pairs directly from the text chunks.
+2. **Execution**: It queries the RAG engine using these generated questions.
+3. **Scoring**: It scores the pipeline on two critical metrics:
+   - **Faithfulness**: Ensures the answer is strictly backed by the retrieved context (0% hallucination).
+   - **Answer Relevancy**: Ensures the retrieved context and generated answer address the user's specific query.
+
+### Running the Evaluation
+To execute the comprehensive evaluation on your own documents:
+```bash
+source .venv/bin/activate
+python eval/dynamic_eval.py
+```
+The script will output the exact metrics and questions to `eval/eval_results.json`.
+
 ## In-Depth Research Documentation
-For a deep dive into the algorithmic design, technical implementation details, and the rigorous quantitative evaluation results (proving a 1.0 score in Faithfulness), please refer to the official [Documentation](Documentation.md) included in this repository.
+For a deep dive into the algorithmic design, technical implementation details, and the rigorous quantitative evaluation procedure, please refer to the official [Documentation](Documentation.md) included in this repository.
