@@ -1,0 +1,23 @@
+{
+  "overall_summary": "Comprehensive RAG Evaluation on Multiple Documents",
+  "evaluations": [
+    {
+      "document": "Ford 10-K",
+      "metrics": {
+        "faithfulness_score": 1.0,
+        "relevancy_score": 0,
+        "total_questions": 5
+      },
+      "details": []
+    },
+    {
+      "document": "Apple 10-K",
+      "metrics": {
+        "faithfulness_score": 0,
+        "relevancy_score": 0,
+        "total_questions": 1
+      },
+      "details": []
+    }
+  ]
+}

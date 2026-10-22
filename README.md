@@ -4,7 +4,7 @@ A FastAPI and React document question-answering prototype. It parses PDFs with L
 
 ## Current evidence
 
-`eval/eval_results.json` is an early smoke run across six generated questions. It has no per-question details, and the Apple sample in `data/` is only a tiny fixture. One document reports 0 answer relevance. Those artifacts are insufficient for a retrieval-quality or hallucination-rate claim. The evaluation script now records generated, successfully evaluated, and failed question counts separately, and uses `null` when no scores were produced. Run `python eval/validate_report.py eval/eval_results.json` to check whether a report is complete enough to publish.
+[`eval/smoke_report.json`](eval/smoke_report.json) is an early smoke run across six generated questions. It has no per-question details, and the Apple sample in `data/` is only a tiny fixture. One document reports 0 answer relevance. Those artifacts are insufficient for a retrieval-quality or hallucination-rate claim. The evaluation script now records generated, successfully evaluated, and failed question counts separately, and uses `null` when no scores were produced. Run `python eval/validate_report.py eval/smoke_report.json` to confirm that this historical report is incomplete.
 
 For a credible benchmark, collect a fixed, human-reviewed set of questions with source passages and unanswerable examples; hold it out from prompt and retrieval tuning. Record per-question answers, retrieved sources, judge decisions, model versions, latency, and cost. Compare against a simple retrieval baseline on the same documents and queries.
 
