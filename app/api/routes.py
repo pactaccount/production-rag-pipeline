@@ -4,6 +4,7 @@ from typing import List, Dict, Optional
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from pydantic import BaseModel
 from app.services.rag import ingest_document, chat_rag
+from app.api.errors import provider_http_error
 
 router = APIRouter()
 
@@ -27,6 +28,7 @@ async def ingest_file(
         raise HTTPException(status_code=400, detail="Only PDF files are supported.")
     
     # Save uploaded file to a temporary location
+    tmp_path = None
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             tmp.write(await file.read())
@@ -37,9 +39,9 @@ async def ingest_file(
         
         return {"message": f"Successfully ingested {file.filename}"}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise provider_http_error(e) from e
     finally:
-        if os.path.exists(tmp_path):
+        if tmp_path and os.path.exists(tmp_path):
             os.remove(tmp_path)
 
 @router.post("/chat", response_model=ChatResponse)
@@ -55,4 +57,4 @@ async def chat_endpoint(request: ChatRequest):
         )
         return ChatResponse(response=response_text)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise provider_http_error(e) from e

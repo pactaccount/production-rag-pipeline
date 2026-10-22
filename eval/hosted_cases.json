@@ -1,0 +1,8 @@
+[
+  {"id":"fiscal_year_end","question":"What date did Apple's 2025 fiscal year end?","expected":"September 27, 2025","source_pdf_page":1},
+  {"id":"ticker","question":"What is Apple's stock ticker symbol?","expected":"AAPL","source_pdf_page":22},
+  {"id":"shareholders","question":"How many shareholders of record did Apple have as of October 17, 2025?","expected":"22,429","source_pdf_page":22},
+  {"id":"us_sales","question":"What were Apple's 2025 U.S. net sales, in millions of dollars?","expected":"151,790","source_pdf_page":51},
+  {"id":"fx_notional","question":"What was the 2025 notional amount, in millions, of foreign exchange contracts designated as accounting hedges?","expected":"62,647","source_pdf_page":42},
+  {"id":"unanswerable","question":"What were Apple's 2027 net sales?","expected":"Not stated in the uploaded 2025 filing pages","source_pdf_page":null}
+]

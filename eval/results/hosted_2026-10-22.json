@@ -1,0 +1,94 @@
+{
+  "timestamp_utc": "2026-10-22T18:13:28.092468+00:00",
+  "base_url": "https://financial-rag-pipeline-te58.onrender.com",
+  "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/aapl-20250927.htm",
+  "source_pdf_sha256": "108590052c3ba5400c63660d787fe7ed4e43868292946d7a7facebe9ab7d1aab",
+  "pdf_pages_included_zero_based": [
+    0,
+    4,
+    21,
+    41,
+    50
+  ],
+  "ingest_seconds": 14.18,
+  "protocol": "Six fixed questions, five selected pages, exact source-fact human review; one unanswerable case",
+  "cases": [
+    {
+      "id": "fiscal_year_end",
+      "question": "What date did Apple's 2025 fiscal year end?",
+      "expected": "September 27, 2025",
+      "source_pdf_page": 1,
+      "answer": "Apple's 2025 fiscal year concluded on **September 27, 2025**.",
+      "http_status": 200,
+      "latency_seconds": 2.21,
+      "human_correct": true,
+      "review_note": "Answer contains the source fact on PDF page 1",
+      "error_category": null
+    },
+    {
+      "id": "ticker",
+      "question": "What is Apple's stock ticker symbol?",
+      "expected": "AAPL",
+      "source_pdf_page": 22,
+      "answer": "Apple Inc.'s common stock trades on The Nasdaq Stock Market LLC under the symbol **AAPL**.",
+      "http_status": 200,
+      "latency_seconds": 2.64,
+      "human_correct": true,
+      "review_note": "Answer contains the source fact on PDF page 22",
+      "error_category": null
+    },
+    {
+      "id": "shareholders",
+      "question": "How many shareholders of record did Apple have as of October 17, 2025?",
+      "expected": "22,429",
+      "source_pdf_page": 22,
+      "answer": "",
+      "http_status": 500,
+      "latency_seconds": 1.15,
+      "human_correct": null,
+      "review_note": "No answer returned; underlying server cause not available from this request",
+      "error_category": "backend_http_500"
+    },
+    {
+      "id": "us_sales",
+      "question": "What were Apple's 2025 U.S. net sales, in millions of dollars?",
+      "expected": "151,790",
+      "source_pdf_page": 51,
+      "answer": "Apple's U.S. net sales for 2025 were **$151,790 million**.",
+      "http_status": 200,
+      "latency_seconds": 2.56,
+      "human_correct": true,
+      "review_note": "Answer contains the source fact on PDF page 51",
+      "error_category": null
+    },
+    {
+      "id": "fx_notional",
+      "question": "What was the 2025 notional amount, in millions, of foreign exchange contracts designated as accounting hedges?",
+      "expected": "62,647",
+      "source_pdf_page": 42,
+      "answer": "The notional amount of foreign exchange contracts designated as accounting hedges for **2025** was **$62,647 million**.",
+      "http_status": 200,
+      "latency_seconds": 2.78,
+      "human_correct": true,
+      "review_note": "Answer contains the source fact on PDF page 42",
+      "error_category": null
+    },
+    {
+      "id": "unanswerable",
+      "question": "What were Apple's 2027 net sales?",
+      "expected": "Not stated in the uploaded 2025 filing pages",
+      "source_pdf_page": null,
+      "answer": "",
+      "http_status": 500,
+      "latency_seconds": 1.12,
+      "human_correct": null,
+      "review_note": "No answer returned; underlying server cause not available from this request",
+      "error_category": "backend_http_500"
+    }
+  ],
+  "answered": 4,
+  "correct_answered": 4,
+  "end_to_end_correct": 4,
+  "total": 6,
+  "unanswerable_case_completed": false
+}
