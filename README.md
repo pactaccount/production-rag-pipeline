@@ -34,3 +34,7 @@ python eval/validate_report.py eval/eval_results.json
 ```
 
 The evaluation generates questions from the same documents used to build its temporary index, so it is a smoke test rather than held-out retrieval evidence. See [Documentation.md](Documentation.md) for implementation notes.
+
+## Résumé evidence
+
+[Résumé evidence and verification](docs/RESUME_EVIDENCE.md) records the use case, engineering approach, test status, measured results, limits, and safe résumé wording.
