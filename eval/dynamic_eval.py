@@ -63,6 +63,7 @@ def evaluate_document(file_path: str, doc_name: str, num_questions: int = 5):
     faithfulness_results = []
     relevancy_results = []
     evaluation_details = []
+    evaluation_errors = []
 
     print("\nRunning Evaluation...")
     for query in questions:
@@ -97,19 +98,23 @@ def evaluate_document(file_path: str, doc_name: str, num_questions: int = 5):
             
         except Exception as e:
             print(f"Error evaluating query: {e}")
+            evaluation_errors.append({"query": query, "error": str(e)})
             
     # 6. Calculate Metrics
-    faithfulness_score = sum(faithfulness_results) / len(faithfulness_results) if faithfulness_results else 0
-    relevancy_score = sum(relevancy_results) / len(relevancy_results) if relevancy_results else 0
+    faithfulness_score = sum(faithfulness_results) / len(faithfulness_results) if faithfulness_results else None
+    relevancy_score = sum(relevancy_results) / len(relevancy_results) if relevancy_results else None
 
     results = {
         "document": doc_name,
         "metrics": {
             "faithfulness_score": faithfulness_score,
             "relevancy_score": relevancy_score,
-            "total_questions": len(questions)
+            "total_questions": len(questions),
+            "evaluated_questions": len(evaluation_details),
+            "failed_questions": len(evaluation_errors)
         },
-        "details": evaluation_details
+        "details": evaluation_details,
+        "errors": evaluation_errors
     }
     
     return results

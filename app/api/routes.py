@@ -27,6 +27,7 @@ async def ingest_file(
         raise HTTPException(status_code=400, detail="Only PDF files are supported.")
     
     # Save uploaded file to a temporary location
+    tmp_path = None
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             tmp.write(await file.read())
@@ -39,7 +40,7 @@ async def ingest_file(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
-        if os.path.exists(tmp_path):
+        if tmp_path and os.path.exists(tmp_path):
             os.remove(tmp_path)
 
 @router.post("/chat", response_model=ChatResponse)
